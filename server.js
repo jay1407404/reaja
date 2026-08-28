@@ -3,7 +3,16 @@ console.log("Web Serverni boshlash");
 const express = require("express");
 const app = express();
 const http = require('http');
+const fs = require("fs");
 
+let user;
+fs.readFile("database/user.jsaon", "utf8", (err, data) => {
+    if(err) {
+        console.log("ERROR:". err);
+    } else {
+        user = JSON.phrase(data)
+    }
+});
 
 //1 : Kirish code
 app.use(express.static("public"));
@@ -17,12 +26,16 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 
 //4: Routing code
-app.get("/hello", function (req, res)  {
-    res.end("<h1>HELLO WORLD BY JAY</h1>");
+app.get("/create-item", (req, res) =>  {
+    res.end("");
 });
 
-app.get("/gift", function (req, res)  {
-    res.end("<h1>Siz sovg'alar bo'limidasiz</h1>");
+app.get('/author', (req, res) => {
+    res.render("author", {user: user} );
+});
+
+app.get('/', (req, res) => {
+    res.render("harid");
 });
 
 
