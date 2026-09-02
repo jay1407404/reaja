@@ -1,45 +1,47 @@
-console.log("Jack Ma maslahatlari");
-const list = [
-    "yaxshi talaba bo'ling", // 0-20
-    "togri boshliq tanlang va koproq hato qiling", //20-30
-    "uzingizga ishlashni boshlang", //30-40
-    "siz kuchli bo'lgan narsani qiling", //40-50
-    "yoshlarga investitsiya qiling", //50-60
-    "endi dam oling, foydasi yo'q endi" //60
-];
 
 
-//callback bilan chaqirish
-function maslahatBering(a, callback) {
+// console.log("Jack Ma maslahatlari");
+// const list = [
+//     "yaxshi talaba bo'ling", // 0-20
+//     "togri boshliq tanlang va koproq hato qiling", //20-30
+//     "uzingizga ishlashni boshlang", //30-40
+//     "siz kuchli bo'lgan narsani qiling", //40-50
+//     "yoshlarga investitsiya qiling", //50-60
+//     "endi dam oling, foydasi yo'q endi" //60
+// ];
 
-    if (typeof a !== "number")
-    callback("Insert a number", null);
 
-    else if (a <= 20) callback(null, list[0]);
-     else if (a < 20 && a <= 30) callback(null, list[1]);
-    else if (a < 30 && a <= 40) callback(null, list[2]);
-    else if (a < 40 && a <= 50) callback(null, list[3]);
-    else if (a < 50 && a <= 60) callback(null, list[4]);
+// //callback bilan chaqirish
+// function maslahatBering(a, callback) {
 
-    else {
+//     if (typeof a !== "number")
+//     callback("Insert a number", null);
 
-        setInterval(function () {
-         callback(null, list[5]);
-        }, 1000);
+//     else if (a <= 20) callback(null, list[0]);
+//      else if (a < 20 && a <= 30) callback(null, list[1]);
+//     else if (a < 30 && a <= 40) callback(null, list[2]);
+//     else if (a < 40 && a <= 50) callback(null, list[3]);
+//     else if (a < 50 && a <= 60) callback(null, list[4]);
 
-    }
+//     else {
 
-}
+//         setInterval(function () {
+//          callback(null, list[5]);
+//         }, 1000);
 
-console.log("passed here 0");
+//     }
 
-maslahatBering(70, (err, data) => {
+// }
 
-    if (err) console.log("ERROR:", err);
-    else {
-        console.log(data); 
-    }
-})
+// console.log("passed here 0");
+
+// maslahatBering(70, (err, data) => {
+
+//     if (err) console.log("ERROR:", err);
+//     else {
+//         console.log(data); 
+//     }
+// })
 
 
 // async function 
@@ -86,3 +88,21 @@ maslahatBering(70, (err, data) => {
 //     console.log(javob);
 // }
 // run();
+
+
+
+//MIT task A
+
+function countLetter(letter, word) {
+    let count = 0;
+
+    for (let i = 0; i < word.length; i++) {
+        if (word[i] === letter) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+console.log(countLetter("e", "engineer"));
