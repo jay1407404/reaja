@@ -1,52 +1,33 @@
-console.log("Web Serverni boshlash");
+const http = require("http");
+const mongodb = require("mongodb");
 
-const express = require("express");
-const app = express();
-const http = require('http');
-const fs = require("fs");
+let db;
 
-let user;
-fs.readFile("database/user.json", "utf8", (err, data) => {
-    if(err) {
-        console.log("ERROR:", err );
-    } else {
-        user = JSON.parse(data)
-    }
-});
+const connectionString =
+  "mongodb+srv://jasurbek4787_db_user:pmsCou4Sn1lWFm6x@reja.vhoebbc.mongodb.net/?retryWrites=true&w=majority";
 
-//1 : Kirish code
-app.use(express.static("public"));
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+mongodb.MongoClient.connect(connectionString)
+  .then((client) => {
+    console.log("MongoDB connected successfully!");
 
+    db = client.db();
 
-//2: Session code
-//3:Views code
-app.set("views", "views");
-app.set("view engine", "ejs");
+    const app = require("./app");
+    const server = http.createServer(app);
 
-//4: Routing code
-app.get("/create-item", (req, res) =>  {
-    res.end("");
-});
+    const PORT = 3000;
 
-app.get('/author', (req, res) => {
-    res.render("author", {user: user} );
-});
-
-app.get('/', (req, res) => {
-    res.render("reja");
-});
+    server.listen(PORT, function () {
+      console.log(
+        `The server is running successfully on port: ${PORT}, http://localhost:${PORT}`
+      );
+    });
+  })
+  .catch((err) => {
+    console.log("ERROR connecting to MongoDB:");
+    console.log(err);
+  });
 
 
-const server = http.createServer(app);
-
-let PORT = 3000;
 
 
-server.listen(PORT, function () {
-    console.log(`The server is running successfully on port: ${PORT}, http://localhost:${PORT}`
-
-    );
-});
- 
