@@ -33,6 +33,7 @@ app.set("view engine", "ejs");
 
 
 app.post("/create-item", (req, res) =>  {
+    console.log(`user entere /create-item`); 
     console.log(req.body);
     const new_reja = req.body.reja;
     db.collection("plans").insertOne({rejas: new_reja}, (err, data) => {
@@ -48,6 +49,7 @@ app.post("/create-item", (req, res) =>  {
 });
 
 app.get('/', function (req, res) {
+    console.log(`user entere /`);
     db.collection("plans")
     .find()
     .toArray((err, data) => {
@@ -56,11 +58,9 @@ app.get('/', function (req, res) {
             res.end("Something went wrong");
         } else {
             console.log(data);
-            res.render("reja", { data: data });
+            res.render("reja", { items: data });
         }
-
     });
-
 });
  
 app.get('/', (req, res) => {
