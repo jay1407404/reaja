@@ -1,9 +1,8 @@
 console.log("Web Serverni boshlash");
 
 const express = require("express");
-const app = express();
 const http = require('http');
-const fs = require("fs");
+const app = express();
 
 let user;
 fs.readFile("database/user.json", "utf8", (err, data) => {
@@ -63,7 +62,7 @@ app.get('/', function (req, res) {
     });
 
 });
-
+ 
 app.get('/', (req, res) => {
     res.render("reja");
 }) ;
