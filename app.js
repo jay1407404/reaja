@@ -14,8 +14,10 @@ fs.readFile("database/user.json", "utf8", (err, data) => {
     }
 });
 
-// MOngoDB connect
+// MOngoDB connect / chaqirish
 
+const db = require("./server").db();
+   
 
 //1 : Kirish code
 app.use(express.static("public"));
@@ -29,17 +31,42 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 
 //4: Routing code
-app.get("/create-item", (req, res) =>  {
-    res.end("");
+
+
+app.post("/create-item", (req, res) =>  {
+    console.log(req.body);
+    const new_reja = req.body.reja;
+    db.collection("plans").insertOne({rejas: new_reja}, (err, data) => {
+        if(err) {
+            console.log(err);
+            res.end("Something went wrong");
+            } else {
+                res.end("successfully added")
+            }
+    }
+    );
+    // TODO: code with db here 
 });
 
-app.get('/author', (req, res) => {
-    res.render("author", {user: user} );
+app.get('/', function (req, res) {
+    db.collection("plans")
+    .find()
+    .toArray((err, data) => {
+        if (err) {
+            console.log(err);
+            res.end("Something went wrong");
+        } else {
+            console.log(data);
+            res.render("reja", { data: data });
+        }
+
+    });
+
 });
 
 app.get('/', (req, res) => {
     res.render("reja");
-});
+}) ;
 
 module.exports = app; 
 
