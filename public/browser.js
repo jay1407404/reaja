@@ -48,3 +48,35 @@ document
         console.log("Iltimos qaytadan urinib ko'ring");
     });
 });  
+
+document.addEventListener("click", function (e) {
+
+
+    // Delete button
+
+    console.log(e.target);
+    console.log(e);
+    if (e.target.classList.contains("delete-me")) {
+      if (confirm("Siz ro'chirishni xohlaysizmi?")) {
+        axios.post("delete-item", { id: e.target.getAttribute("data-id") }) 
+        .then((response) => {
+          console.log(response.data);
+          e.target.parentElement.parentElement.remove();
+        })
+        .catch((err) => {
+          console.log("Iltimos qaytadan urinib ko'ring");
+        });      
+    }
+  }
+
+
+
+
+
+
+
+    // Edit button
+    if (e.target.classList.contains("edit-me")) { 
+     alert("Siz o'zgartirish tugmasini bosdingiz"); 
+    }
+  });

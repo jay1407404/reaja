@@ -18,6 +18,7 @@ fs.readFile("database/user.json", "utf8", (err, data) => {
 
 // MongoDB connect
 const db = require("./server").db();
+const mongosb=require("mongodb");
 
 // 3 Views code
 app.use(express.static("public"));
@@ -50,6 +51,18 @@ app.post("/create-item", (req, res) => {
             reja: new_reja
         });
     }
+);
+});
+
+app.post("/delete-item", (req, res) => {
+const id = req.body.id; 
+console.log(id);
+res.end("done");
+db.collection("plans").deleteOne({ _id: new mongodb.ObjectId(id) }, 
+ function(err, data) {
+    res.json({state: "success"});
+
+ }
 );
 });
 
