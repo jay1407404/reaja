@@ -1,3 +1,4 @@
+
 function countDigits(str) {
     let count = 0;
 
@@ -9,3 +10,4 @@ function countDigits(str) {
     return count;
 }
 console.log(countDigits("ad2a54y79wet0sfgb9")); 
+

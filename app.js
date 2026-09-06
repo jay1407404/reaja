@@ -1,72 +1,74 @@
 console.log("Web Serverni boshlash");
 
 const express = require("express");
-const http = require('http');
+const http = require("http");
+const fs = require("fs");
+
 const app = express();
 
 let user;
+
 fs.readFile("database/user.json", "utf8", (err, data) => {
-    if(err) {
-        console.log("ERROR:", err );
+    if (err) {
+        console.log("ERROR:", err);
     } else {
-        user = JSON.parse(data)
+        user = JSON.parse(data);
     }
 });
 
-// MOngoDB connect / chaqirish
-
+// MongoDB connect
 const db = require("./server").db();
-   
 
-//1 : Kirish code
+// 3 Views code
 app.use(express.static("public"));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
-
-//2: Session code
-//3:Views code
+// Views
 app.set("views", "views");
 app.set("view engine", "ejs");
 
-//4: Routing code
-
-
-app.post("/create-item", (req, res) =>  {
-    console.log(`user entere /create-item`); 
+// 4 Routing code 
+app.post("/create-item", (req, res) => {
+    console.log("User entered /create-item");
     console.log(req.body);
-    const new_reja = req.body.reja;
-    db.collection("plans").insertOne({rejas: new_reja}, (err, data) => {
-        if(err) {
-            console.log(err);
-            res.end("Something went wrong");
-            } else {
-                res.end("successfully added")
-            }
-    }
-    );
-    // TODO: code with db here 
-});
 
-app.get('/', function (req, res) {
-    console.log(`user entere /`);
-    db.collection("plans")
-    .find()
-    .toArray((err, data) => {
+    const new_reja = req.body.reja;
+
+    db.collection("plans").insertOne(
+    { reja: new_reja },
+    (err, data) => {
         if (err) {
             console.log(err);
-            res.end("Something went wrong");
-        } else {
-            console.log(data);
-            res.render("reja", { items: data });
+            return res.end("Something went wrong");
         }
-    });
+
+        console.log(data);
+
+        res.json({
+            _id: data.insertedId,
+            reja: new_reja
+        });
+    }
+);
 });
- 
-app.get('/', (req, res) => {
-    res.render("reja");
-}) ;
 
-module.exports = app; 
+// GET ITEMS
+app.get("/", (req, res) => {
+    console.log("User entered /");
 
+    db.collection("plans")
+        .find()
+        .toArray((err, data) => {
+            if (err) {
+                console.log(err);
+                res.end("Something went wrong");
+            } else {
+                console.log(data);
+                res.render("reja", { items: data });
+            }
+        });
+});
+
+module.exports = app;
  
