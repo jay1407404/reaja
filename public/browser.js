@@ -78,5 +78,7 @@ document.addEventListener("click", function (e) {
     // Edit button
     if (e.target.classList.contains("edit-me")) { 
      alert("Siz o'zgartirish tugmasini bosdingiz"); 
+    
+    
     }
   });
