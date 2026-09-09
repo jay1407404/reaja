@@ -1,34 +1,62 @@
+// D - Task
 
+class Shop {
+  constructor(non, lagmon, cola) {
+    this.non = non;
+    this.lagmon = lagmon;
+    this.cola = cola;
+  }
 
-function countDigits(str) {
-    let count = 0;
+  qoldiq() {
+    let vaqt = new Date().toLocaleTimeString("uz-UZ", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
 
-    for (let i = 0; i < str.length; i++) {
-        if (str[i] >= "0" && str[i] <= "9") {
-            count++;
-        }
+    return `Hozir ${vaqt}da ${this.non}ta non, ${this.lagmon}ta lagmon va ${this.cola}ta cola mavjud!`;
+  }
+
+  sotish(mahsulot, soni) {
+    let vaqt = new Date().toLocaleTimeString("uz-UZ", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    if (mahsulot === "non") {
+      this.non -= soni;
+    } else if (mahsulot === "lagmon") {
+      this.lagmon -= soni;
+    } else if (mahsulot === "cola") {
+      this.cola -= soni;
     }
-    return count;
+
+    console.log(`Sotish amalga oshdi. Vaqt: ${vaqt}`);
+  }
+
+  qabul(mahsulot, soni) {
+    let vaqt = new Date().toLocaleTimeString("uz-UZ", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    if (mahsulot === "non") {
+      this.non += soni;
+    } else if (mahsulot === "lagmon") {
+      this.lagmon += soni;
+    } else if (mahsulot === "cola") {
+      this.cola += soni;
+    }
+
+    console.log(`Qabul amalga oshdi. Vaqt: ${vaqt}`);
+  }
 }
 
 
+const shop = new Shop(4, 5, 2);
 
-// C - TAsk
-function checkContent(str1, str2) {
-    if (str1.length !== str2.length) {
-        return false;
-    }
+console.log(shop.qoldiq());
 
-    let count1 = {};
-    let count2 = {};
+shop.sotish("non", 3);
+shop.qabul("cola", 4);
 
-    for (let letter of str1) {
-        count1[letter] = (count1[letter] || 0) + 1;
-    }
-
-    for (let letter of str2) {
-        count2[letter] = (count2[letter] || 0) + 1;
-    }
-
-    return JSON.stringify(count1) === JSON.stringify(count2);
-}
+console.log(shop.qoldiq());
