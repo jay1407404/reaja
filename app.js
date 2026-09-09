@@ -17,8 +17,10 @@ fs.readFile("database/user.json", "utf8", (err, data) => {
 });
 
 // MongoDB connect
-const db = require("./server").db();
-const mongodb=require("mongodb");
+const client = require("./server");
+const db = client.db("REJA");
+
+const mongodb = require("mongodb");
 
 // 3 Views code
 app.use(express.static("public"));
@@ -77,7 +79,7 @@ app.post("/edit-item", (req, res) => {
 
     db.collection("plans").findOneAndUpdate(
         { _id: new mongodb.ObjectId(data.id) },
-        { $set: { rejas: data.new_input } },
+        { $set: { reja: data.new_input } },
         function(err, result) {
             if (err) {
                 console.log(err);
@@ -93,17 +95,13 @@ app.post("/edit-item", (req, res) => {
     );
 });
 
-// Delete all items
-app.post("/delete-all", (req, res) => {
-  db.collection("plans").deleteMany({}, function(err, data) {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({ state: "error" });
+app.post("/delete-item", (req, res) => {
+    if (req.body.delete_all) {
+        db.collection("plans").deleteMany({}, function (err, data) {
+            res.json({ state: "Hamma reja o'chirildi" });
+        });
     }
-
-    res.json({ state: "Hamma reja o'chirildi" });
-  });
-});
+})
 
 // GET ITEMS
 app.get("/", (req, res) => {
