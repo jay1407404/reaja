@@ -85,7 +85,7 @@ app.post("/edit-item", (req, res) => {
                 console.log(err);
                 return res.status(500).json({
                     state: "error"
-                });
+                });ç
             }
 
             res.json({
@@ -95,7 +95,7 @@ app.post("/edit-item", (req, res) => {
     );
 });
 
-app.post("/delete-item", (req, res) => {
+app.post("/delete-all", (req, res) => {
     if (req.body.delete_all) {
         db.collection("plans").deleteMany({}, function (err, data) {
             res.json({ state: "Hamma reja o'chirildi" });
