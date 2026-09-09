@@ -18,7 +18,7 @@ fs.readFile("database/user.json", "utf8", (err, data) => {
 
 // MongoDB connect
 const db = require("./server").db();
-const mongosb=require("mongodb");
+const mongodb=require("mongodb");
 
 // 3 Views code
 app.use(express.static("public"));
@@ -54,16 +54,51 @@ app.post("/create-item", (req, res) => {
 );
 });
 
-app.post("/delete-item", (req, res) => {
-const id = req.body.id; 
-console.log(id);
-res.end("done");
-db.collection("plans").deleteOne({ _id: new mongodb.ObjectId(id) }, 
- function(err, data) {
-    res.json({state: "success"});
 
- }
-);
+// Delete item
+
+app.post("/delete-item", (req, res) => {
+    const data = req.body;
+    db.collection("plans").deleteOne(
+        { _id: new mongodb.ObjectId(data.id) },
+        function(err,data) {
+            res.json({state: "success"});
+        }
+    )
+});
+
+
+// Edit item
+
+app.post("/edit-item", (req, res) => {
+    const data = req.body;
+
+    console.log(data);
+
+    db.collection("plans").findOneAndUpdate(
+        { _id: new mongodb.ObjectId(data.id) },
+        { $set: { rejas: data.new_input } },
+        function(err, result) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    state: "error"
+                });
+            }
+
+            res.json({
+                state: "success"
+            });
+        }
+    );
+});
+
+app.post("/delete-all", (req, res) => {
+    if (req.body.delete_all) {
+        db.collection("plans").deleteMany({}, function (err, data) {
+            res.json({ state: "Hamma reja o'chirildi" });
+        });
+    }
 });
 
 // GET ITEMS
@@ -82,6 +117,8 @@ app.get("/", (req, res) => {
             }
         });
 });
+
+
 
 module.exports = app;
  

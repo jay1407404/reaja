@@ -57,7 +57,7 @@ document.addEventListener("click", function (e) {
     console.log(e.target);
     console.log(e);
     if (e.target.classList.contains("delete-me")) {
-      if (confirm("Siz ro'chirishni xohlaysizmi?")) {
+      if (confirm("Siz o'chirishni xohlaysizmi?")) {
         axios.post("delete-item", { id: e.target.getAttribute("data-id") }) 
         .then((response) => {
           console.log(response.data);
@@ -69,16 +69,43 @@ document.addEventListener("click", function (e) {
     }
   }
 
-
-
-
-
-
-
     // Edit button
-    if (e.target.classList.contains("edit-me")) { 
-     alert("Siz o'zgartirish tugmasini bosdingiz"); 
-    
-    
+   if (e.target.classList.contains("edit-me")) {
+
+    let userInput = prompt(
+        "O'zgartirish kiriting",
+        e.target.parentElement.parentElement
+            .querySelector(".item-text").innerHTML
+    );
+
+    if (userInput) {
+
+        axios.post("/edit-item", {
+            id: e.target.getAttribute("data-id"),
+            new_input: userInput
+        })
+        .then(response => {
+
+            console.log("SUCCESS:", response);
+
+            e.target.parentElement.parentElement
+                .querySelector(".item-text").innerHTML = userInput;
+
+        })
+        .catch(err => {
+
+            console.log("Iltimos qaytadan urinib ko'ring");
+            console.error("ERROR:", err);
+            console.log("RESPONSE:", err.response);
+      })
     }
-  });
+}
+  }); 
+
+  document.getElementById("clean-all").addEventListener("click", function (e) {
+    axios.post("/delete-all", {delete_all: true}).then((response) => {
+      alert(response.data.state);
+      document.location.reload();
+
+    })
+  })
